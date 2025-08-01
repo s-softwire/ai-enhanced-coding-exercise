@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { getLLMConfig } from '../config';
 import { extractFlashcards } from '../services/llmService';
@@ -18,6 +18,8 @@ const InputForm: React.FC<InputFormProps> = ({ setFlashcardSet, setLoading, setE
   const [isUrlInput, setIsUrlInput] = useState(true);
   const [input, setInput] = useState('');
   const [useMockMode, setUseMockMode] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const csvFileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const savedSetting = localStorage.getItem('use_mock_mode');
@@ -46,6 +48,70 @@ const InputForm: React.FC<InputFormProps> = ({ setFlashcardSet, setLoading, setE
       return title.replace(/_/g, ' ');
     } catch (error) {
       return 'Wikipedia Article';
+    }
+  };
+
+  const handleImportJson = (): void => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files?.[0];
+    
+    // If no file is selected (user canceled), do nothing
+    if (!file) {
+      return;
+    }
+    
+    if (file.type === 'application/json') {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const contents = e.target?.result as string;
+        setInput(contents);
+        setIsUrlInput(false); // Switch to custom text mode when importing JSON
+      };
+      reader.readAsText(file);
+    } else {
+      setError('Please select a valid JSON file');
+    }
+    
+    // Reset the file input
+    if (event.target) {
+      event.target.value = '';
+    }
+  };
+
+  const handleImportCsv = (): void => {
+    if (csvFileInputRef.current) {
+      csvFileInputRef.current.click();
+    }
+  };
+
+  const handleCsvFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files?.[0];
+    
+    // If no file is selected (user canceled), do nothing
+    if (!file) {
+      return;
+    }
+    
+    if (file.type === 'text/csv' || file.name.endsWith('.csv')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const contents = e.target?.result as string;
+        setInput(contents);
+        setIsUrlInput(false); // Switch to custom text mode when importing CSV
+      };
+      reader.readAsText(file);
+    } else {
+      setError('Please select a valid CSV file');
+    }
+    
+    // Reset the file input
+    if (event.target) {
+      event.target.value = '';
     }
   };
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -99,6 +165,10 @@ const InputForm: React.FC<InputFormProps> = ({ setFlashcardSet, setLoading, setE
 
   return (
     <div className="input-form-container">
+      <div className="form-header">
+        <h2>Generate new flash cards:</h2>
+      </div>
+      
       <form
         onSubmit={(e): void => {
           handleSubmit(e).catch((_) => { /* Error handled in handleSubmit */ });
@@ -139,8 +209,38 @@ const InputForm: React.FC<InputFormProps> = ({ setFlashcardSet, setLoading, setE
         </div>
 
         <MockModeToggle onChange={setUseMockMode} />
-
-        <button className="submit-button" type="submit">Generate Flashcards</button>
+        
+        <div className="main-action">
+          <button className="generate-button" type="submit">Generate Flashcards</button>
+        </div>
+        
+        <div className="divider">
+          <span>OR</span>
+        </div>
+        
+        <div className="import-actions">
+          <button className="import-json-button" type="button" onClick={handleImportJson}>
+            Import from JSON
+          </button>
+          <button className="import-csv-button" type="button" onClick={handleImportCsv}>
+            Import from CSV
+          </button>
+        </div>
+        
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept=".json"
+          style={{ display: 'none' }}
+        />
+        <input
+          type="file"
+          ref={csvFileInputRef}
+          onChange={handleCsvFileChange}
+          accept=".csv"
+          style={{ display: 'none' }}
+        />
       </form>
     </div>
   );

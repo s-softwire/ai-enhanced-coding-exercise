@@ -1,12 +1,25 @@
 .input-form-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
   box-sizing: border-box;
   overflow: hidden;
+  border: 1px solid #e8ecef;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
 }
 
 .input-type-selector {
@@ -66,21 +79,94 @@
   font-size: 0.8rem;
 }
 
-.submit-button {
+.main-action {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.generate-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #2ecc71;
+  padding: 1rem 2rem;
+  background-color: #28a745;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.generate-button:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0;
+  border-top: 1px solid #e8ecef;
+}
+
+.divider span {
+  background: white;
+  padding: 0 1rem;
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+  position: relative;
+  top: -0.6rem;
+}
+
+.import-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.import-json-button,
+.import-csv-button {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
 }
 
-.submit-button:hover {
-  background-color: #27ae60;
+.import-json-button {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.import-json-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.import-csv-button {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.import-csv-button:hover {
+  background-color: #1e7e34;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+@media (max-width: 768px) {
+  .import-actions {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 768px) {

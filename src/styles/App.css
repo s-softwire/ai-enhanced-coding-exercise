@@ -21,6 +21,40 @@ header p {
   color: #7f8c8d;
 }
 
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  background: #f8f9fa;
+  padding: 0.25rem;
+  border-radius: 50px;
+  display: inline-flex;
+}
+
+.view-toggle button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #666;
+}
+
+.view-toggle button:hover {
+  background: white;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.view-toggle button.active {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
 main {
   flex: 1;
   display: flex;
